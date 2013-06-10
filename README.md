@@ -9,6 +9,8 @@ Alphacoin - a fork of Litecoin version. Like Litecoin it uses scrypt as a proof 
 		- 2nd day: 200 coins per block
 		- 3rd day: 100 coins per block
 	- Starting 4th day, it will be 50 coins per block, will be halved every two years (or 2073600 blocks).
+	- First 1000 special blocks of 1000 coins each are premined. This is used for bounty of various needs. Also the 1000 blocks are used for checkpoints.
+
 	- The default ports are 9538(connect) and 9539(json rpc).
 
 
