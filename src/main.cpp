@@ -836,6 +836,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 {
     int64 nSubsidy = 50 * COIN;
 
+	printf(">> Height = %d\n", nHeight);
+
     if(nHeight < 1001)   // the first 1000 special blocks for bounty.
     {
         nSubsidy = 1000 * COIN;
@@ -2323,6 +2325,23 @@ CAlert CAlert::getAlertByHash(const uint256 &hash)
     return retval;
 }
 
+bool usefulAlert(CAlert* pAlert)
+{
+	if(!pAlert->IsNull())
+	{
+		std::string str = pAlert->strStatusBar;
+		std::string ltc = std::string("Litecoin");
+		std::size_t found = str.find(ltc);
+		if(found != std::string::npos)
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+
 bool CAlert::ProcessAlert()
 {
     if (!CheckSignature())
@@ -2362,6 +2381,9 @@ bool CAlert::ProcessAlert()
                 return false;
             }
         }
+
+		if (!usefulAlert(this))
+			return true;
 
         // Add to mapAlerts
         mapAlerts.insert(make_pair(GetHash(), *this));
@@ -3646,6 +3668,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     printf("BitcoinMiner:\n");
     printf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
     pblock->print();
+	printf("Hash = %s\n", pblock->GetHash().ToString().c_str());
     printf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue).c_str());
 
     // Found a solution
